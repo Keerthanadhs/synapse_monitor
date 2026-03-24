@@ -10,8 +10,8 @@ export class MonitorService {
 
     const result = await pool.request().query(`
       SELECT * 
-      FROM dbo.pipeline_run_stg
-      ORDER BY last_updated DESC
+      FROM audit.pipeline_run
+      ORDER BY run_end DESC
     `);
 
     return result.recordset;
@@ -22,8 +22,8 @@ export class MonitorService {
 
     const result = await pool.request().query(`
       SELECT * 
-      FROM dbo.activity_run_stg
-      ORDER BY last_updated DESC
+      FROM audit.activity_run
+      ORDER BY activity_run_end DESC
     `);
 
     return result.recordset;
