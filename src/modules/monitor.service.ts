@@ -9,7 +9,14 @@ export class MonitorService {
     try {
       console.log('[MonitorService] Fetching pipeline runs...');
       const pool = await this.dbService.getPool();
+
+      if (!pool) {
+        console.error('[MonitorService] Pool is undefined. DB connection failed');
+        throw new Error('Database connection not established');
+      }
+
       console.log('[MonitorService] Pool acquired, executing query...');
+      console.log('[MonitorService] Query: SELECT * FROM dbo.pipeline_run_stg');
 
       const result = await pool.request().query(`
         SELECT * 
@@ -31,7 +38,14 @@ export class MonitorService {
     try {
       console.log('[MonitorService] Fetching activity runs...');
       const pool = await this.dbService.getPool();
+
+      if (!pool) {
+        console.error('[MonitorService] Pool is undefined. DB connection failed');
+        throw new Error('Database connection not established');
+      }
+
       console.log('[MonitorService] Pool acquired, executing query...');
+      console.log('[MonitorService] Query: SELECT * FROM dbo.activity_run_stg');
 
       const result = await pool.request().query(`
         SELECT * 
