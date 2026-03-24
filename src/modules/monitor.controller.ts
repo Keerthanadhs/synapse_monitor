@@ -6,12 +6,12 @@ export class MonitorController {
   constructor(private readonly monitorService: MonitorService) {}
 
   @Get('pipeline')
-  async getPipeline() {
+  getPipeline() {
     return this.monitorService.getPipelineRuns();
   }
 
   @Get('activity')
-  async getActivity() {
+  getActivity() {
     return this.monitorService.getActivityRuns();
   }
 }
