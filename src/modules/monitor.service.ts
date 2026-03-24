@@ -6,26 +6,46 @@ export class MonitorService {
   constructor(private readonly dbService: DatabaseService) {}
 
   async getPipelineRuns() {
-    const pool = this.dbService.getPool();
+    try {
+      console.log('[MonitorService] Fetching pipeline runs...');
+      const pool = await this.dbService.getPool();
+      console.log('[MonitorService] Pool acquired, executing query...');
 
-    const result = await pool.request().query(`
-      SELECT * 
-      FROM dbo.pipeline_run_stg
-      ORDER BY last_updated DESC
-    `);
+      const result = await pool.request().query(`
+        SELECT * 
+        FROM dbo.pipeline_run_stg
+        ORDER BY last_updated DESC
+      `);
 
-    return result.recordset;
+      console.log(
+        `[MonitorService] Query successful, rows returned: ${result.recordset.length}`
+      );
+      return result.recordset;
+    } catch (error) {
+      console.error('[MonitorService] Error in getPipelineRuns:', error);
+      throw error;
+    }
   }
 
   async getActivityRuns() {
-    const pool = this.dbService.getPool();
+    try {
+      console.log('[MonitorService] Fetching activity runs...');
+      const pool = await this.dbService.getPool();
+      console.log('[MonitorService] Pool acquired, executing query...');
 
-    const result = await pool.request().query(`
-      SELECT * 
-      FROM dbo.activity_run_stg
-      ORDER BY last_updated DESC
-    `);
+      const result = await pool.request().query(`
+        SELECT * 
+        FROM dbo.activity_run_stg
+        ORDER BY last_updated DESC
+      `);
 
-    return result.recordset;
+      console.log(
+        `[MonitorService] Query successful, rows returned: ${result.recordset.length}`
+      );
+      return result.recordset;
+    } catch (error) {
+      console.error('[MonitorService] Error in getActivityRuns:', error);
+      throw error;
+    }
   }
 }
